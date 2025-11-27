@@ -1,29 +1,30 @@
-const API_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL; // must be https://job-application-project-renderdeploy.onrender.com
+const API_AUTH = `${BASE_URL}/api/users`;
 
-const signin = async (user) => {
-    try {
-        let response = await fetch(`${API_URL}/auth/signin`, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            credentials: "include",
-            body: JSON.stringify(user),
-        });
-        return await response.json();
-    } catch (err) {
-        console.log("Signin API Error:", err);
-    }
+export const signin = async (user) => {
+  try {
+    const response = await fetch(`${API_AUTH}/signin`, {  // <-- correct path
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',  // sends cookies
+      body: JSON.stringify(user)
+    });
+    return await response.json();
+  } catch (err) {
+    console.error('Signin API Error:', err);
+    throw err;
+  }
 };
 
-const signout = async () => {
-    try {
-        let response = await fetch(`${API_URL}/auth/signout`, { method: "GET" });
-        return await response.json();
-    } catch (err) {
-        console.log("Signout API Error:", err);
-    }
+export const signout = async () => {
+  try {
+    const response = await fetch(`${API_AUTH}/signout`, {
+      method: 'GET',
+      credentials: 'include'
+    });
+    return await response.json();
+  } catch (err) {
+    console.error('Signout API Error:', err);
+    throw err;
+  }
 };
-
-export { signin, signout };
