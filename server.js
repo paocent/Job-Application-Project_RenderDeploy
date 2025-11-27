@@ -18,7 +18,7 @@ mongoose.connection.on('error', () => {
 });
 
 app.get("/", (req, res) => {
-    res.json({ message: "Welcome to my Portfolio Application, Now Connected to MongoDB" });
+    res.json({ message: "Welcome to our Job Application Project, Now Connected to MongoDB" });
 });
 
 app.listen(config.port, (err) => {
