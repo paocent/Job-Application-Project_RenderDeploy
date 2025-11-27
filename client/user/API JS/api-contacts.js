@@ -1,54 +1,50 @@
 // src/user/API JS/api-contacts.js
 
-const API_BASE = "/api/contacts/"; 
+// 🔗 Backend base URL from Vite environment
+const BASE_URL = import.meta.env.VITE_API_URL;
 
-// --- Helper Functions (Ensuring robust response handling) ---
+if (!BASE_URL) {
+    console.error("❌ VITE_API_URL is missing. Check your .env and Render env vars.");
+}
+
+// 🔥 Use full absolute backend URL
+const API_BASE = `${BASE_URL}/api/contacts`;
+
+// --- Helper Functions ---
 
 const handleResponse = async (response) => {
-    // 1. Check if the response status is NOT OK (e.g., 400, 500)
+    // If HTTP status is not OK
     if (!response.ok) {
-        // Read the error text/HTML from the server, but don't try to parse it as JSON.
-        const errorText = await response.text(); 
-        
-        // Log the full response content for debugging
-        console.error(`Server responded with error status: ${response.status}`, errorText);
-        
-        // Throw a simplified error. This prevents the "Invalid status code" JSON parsing error.
-        throw new Error(`API call failed with status: ${response.status}. Details: ${errorText.substring(0, 100)}...`);
+        const errorText = await response.text();
+        console.error(`❌ API Error (${response.status}):`, errorText);
+        throw new Error(`HTTP ${response.status}: ${errorText.substring(0, 150)}`);
     }
 
-    // 2. If the response IS OK (200, 201, 204), check content type.
+    // Check for JSON response
     const contentType = response.headers.get("content-type");
-    
-    // Check if the response has content AND is JSON
     if (contentType && contentType.includes("application/json")) {
-        // Try to parse JSON for successful, JSON-containing responses
         try {
             const data = await response.json();
-            if (data.error) {
-                // Throw if the server successfully returns JSON but includes an error key
-                throw new Error(data.error);
-            }
+            if (data.error) throw new Error(data.error);
             return data;
         } catch (err) {
-            console.error("Failed to parse successful response JSON:", err);
-            throw new Error("Failed to process server response.");
+            console.error("❌ JSON parse error:", err);
+            throw new Error("Failed to parse server JSON response.");
         }
     }
-    
-    // 3. Handle successful responses that are not JSON (like a 204 No Content for a successful delete).
-    return {}; 
+
+    // No content (204, delete success)
+    return {};
 };
 
 const handleError = (err) => {
-    console.error("API call failed:", err);
-    // Return the error message from the thrown Error object
-    return { error: err.message || "An unknown network error occurred" }; 
+    console.error("🚨 API call failed:", err);
+    return { error: err.message || "Network request failed" };
 };
 
-// --- CRUD Functions (These remain largely unchanged as they call the helper) ---
+// --- CRUD Functions ---
 
-const create = async (contact, { t }) => {
+export const create = async (contact, { t }) => {
     try {
         const response = await fetch(API_BASE, {
             method: "POST",
@@ -65,14 +61,14 @@ const create = async (contact, { t }) => {
     }
 };
 
-const list = async (credentials, signal) => { 
+export const list = async (credentials, signal) => {
     try {
         const response = await fetch(API_BASE, {
             method: "GET",
             signal,
             headers: {
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${credentials.t}`,
+                Accept: "application/json",
+                Authorization: `Bearer ${credentials.t}`,
             },
         });
         return await handleResponse(response);
@@ -81,9 +77,9 @@ const list = async (credentials, signal) => {
     }
 };
 
-const read = async ({ contactId }, { t }, signal) => {
+export const read = async ({ contactId }, { t }, signal) => {
     try {
-        const response = await fetch(`${API_BASE}${contactId}`, { 
+        const response = await fetch(`${API_BASE}/${contactId}`, {
             method: "GET",
             signal,
             headers: {
@@ -97,9 +93,9 @@ const read = async ({ contactId }, { t }, signal) => {
     }
 };
 
-const update = async ({ contactId }, { t }, contact) => {
+export const update = async ({ contactId }, { t }, contact) => {
     try {
-        const response = await fetch(`${API_BASE}${contactId}`, {
+        const response = await fetch(`${API_BASE}/${contactId}`, {
             method: "PUT",
             headers: {
                 Accept: "application/json",
@@ -114,9 +110,9 @@ const update = async ({ contactId }, { t }, contact) => {
     }
 };
 
-const remove = async ({ contactId }, { t }) => {
+export const remove = async ({ contactId }, { t }) => {
     try {
-        const response = await fetch(`${API_BASE}${contactId}`, { 
+        const response = await fetch(`${API_BASE}/${contactId}`, {
             method: "DELETE",
             headers: {
                 Accept: "application/json",
@@ -128,5 +124,3 @@ const remove = async ({ contactId }, { t }) => {
         return handleError(err);
     }
 };
-
-export { create, list, read, update, remove };
