@@ -1,70 +1,82 @@
-import express from 'express'
-import bodyParser from 'body-parser' // Keep for reference, but express.json/urlencoded is preferred
-import cookieParser from 'cookie-parser' // Import once
-import compress from 'compression'
-import cors from 'cors'
-import helmet from 'helmet'
-import userRoutes from './routes/user.routes.js' 
-import authRoutes from './routes/auth.routes.js'
-import contactsRoutes from './routes/contacts.routes.js'  
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import compress from 'compression';
+import cors from 'cors';
+import helmet from 'helmet';
+import dotenv from 'dotenv';
 
-import projectsRoutes from './routes/project.routes.js'
-import contactForms from './routes/contactsForm.routes.js' // Import contact form routes
-import Testimonials from './routes/testimonial.routes.js' // Import testimonials routes
-import AddJob from './routes/jobApplication.routes.js' // Import job application routes
+import userRoutes from './routes/user.routes.js';
+import authRoutes from './routes/auth.routes.js';
+import contactsRoutes from './routes/contacts.routes.js';
+import projectsRoutes from './routes/project.routes.js';
+import contactForms from './routes/contactsForm.routes.js';
+import Testimonials from './routes/testimonial.routes.js';
+import AddJob from './routes/jobApplication.routes.js';
 
-import dotenv from 'dotenv'
 dotenv.config();
 
-// Fix 1: Removed duplicate 'import cookieParser from 'cookie-parser''
-// The import is handled above.
+const app = express();
 
-const app = express()
-
-// --- 1. Parsing Middleware (MUST be first) ---
-
-// Use modern Express parsers (handles req.body)
+// ----------------------------
+// 1. Parsing Middleware
+// ----------------------------
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-// Use Cookie Parser (Handles req.cookies)
-app.use(cookieParser()); // <--- CORRECT POSITION
+// ----------------------------
+// 2. Security & Utility Middleware
+// ----------------------------
+app.use(compress());
+app.use(helmet());
 
-// --- 2. Security/Utility Middleware ---
+// ----------------------------
+// 3. CORS Middleware (for credentials)
+// ----------------------------
+const allowedOrigins = [
+  'https://job-application-project-renderdeploy-otfv.onrender.com', // frontend
+  'http://localhost:5173', // local dev
+];
 
-app.use(compress()) // Compression should run early
-app.use(helmet())   // Helmet should run early for security
-app.use(cors())     // CORS should run early 
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true); // allow requests like curl, mobile apps
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg = `The CORS policy for this site does not allow access from the specified Origin.`;
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+    credentials: true, // allow cookies / auth headers
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
 
-// --- Removed Redundant Body-dParser Calls ---s
-// The following lines were redundant and placed too late:
-// app.use(bodyParser.json())
-// app.use(bodyParser.urlencoded({ extended: true }))
-// app.use(cookieParser()) // Redundant and too late here
+// ----------------------------
+// 4. Route Handlers
+// ----------------------------
+app.use('/api/users', userRoutes);
+app.use('/api/users', authRoutes);       // signin / signout
+app.use('/api/contacts', contactsRoutes);
+app.use('/api/projects', projectsRoutes);
+app.use('/api/contact-forms', contactForms);
+app.use('/api/testimonials', Testimonials);
+app.use('/api/jobs', AddJob);
 
-// --- 3. Route Handlers (MUST be after parsing middleware) ---
-
-app.use('/', userRoutes)
-app.use('/', contactsRoutes)
-app.use('/', authRoutes)
-
-app.use('/', projectsRoutes)
-app.use('/', contactForms) // Add contact form routes
-app.use('/', Testimonials) // Add testimonials routes
-app.use('/', AddJob) // Add job application routes
-
-
-// --- 4. Error Handling Middleware (MUST be last) ---
-
+// ----------------------------
+// 5. Global Error Handling
+// ----------------------------
 app.use((err, req, res, next) => {
-    if (err.name === 'UnauthorizedError') {
-        // This handles errors from express-jwt (requireSignin)
-        res.status(401).json({"error" : err.name + ": " + err.message})
-    } else if (err) {
-        // Handles Mongoose validation errors or other general errors
-        res.status(400).json({"error" : err.name + ": " + err.message})
-        console.log(err)
-    }
-})
+  if (err.name === 'UnauthorizedError') {
+    // express-jwt auth errors
+    res.status(401).json({ error: `${err.name}: ${err.message}` });
+  } else if (err) {
+    // General errors
+    console.error(err);
+    res.status(400).json({ error: `${err.name}: ${err.message}` });
+  }
+});
 
-export default app
+export default app;
