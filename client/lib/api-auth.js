@@ -1,28 +1,46 @@
-const API_URL = import.meta.env.VITE_API_URL;
+
+const API_URL = import.meta.env.VITE_API_URL; // e.g., https://job-application-project-renderdeploy-ofv.onrender.com
 
 const signin = async (user) => {
     try {
-        let response = await fetch(`${API_URL}/auth/signin`, {
+        const response = await fetch(`${API_URL}/api/users/signin`, { // ✅ Fixed path
             method: "POST",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
             },
-            credentials: "include",
+            credentials: "include", // ✅ Important for cookies
             body: JSON.stringify(user),
         });
-        return await response.json();
+
+        const data = await response.json().catch(() => null);
+
+        if (!response.ok) {
+            console.error("Signin failed:", data?.error || "Unknown error");
+        }
+
+        return data;
     } catch (err) {
-        console.log("Signin API Error:", err);
+        console.error("Signin API Error:", err);
     }
 };
 
 const signout = async () => {
     try {
-        let response = await fetch(`${API_URL}/auth/signout`, { method: "GET" });
-        return await response.json();
+        const response = await fetch(`${API_URL}/api/users/signout`, { // ✅ Fixed path
+            method: "GET",
+            credentials: "include",
+        });
+
+        const data = await response.json().catch(() => null);
+
+        if (!response.ok) {
+            console.error("Signout failed:", data?.error || "Unknown error");
+        }
+
+        return data;
     } catch (err) {
-        console.log("Signout API Error:", err);
+        console.error("Signout API Error:", err);
     }
 };
 

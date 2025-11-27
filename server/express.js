@@ -1,3 +1,4 @@
+
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import compress from 'compression';
@@ -27,17 +28,20 @@ app.use(compress());
 app.use(helmet());
 
 // ----------------------------
-// 2. CORS
+// 2. CORS Configuration
 // ----------------------------
 const allowedOrigins = [
-  'https://job-application-project-renderdeploy-otfv.onrender.com', // frontend
-  'http://localhost:5173' // local dev
+  'https://job-application-project-renderdeploy-ofv.onrender.com', // ✅ Corrected frontend URL
+  'http://localhost:5173' // Local development
 ];
 
 app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin) return callback(null, true); // allow Postman / curl
-    if (!allowedOrigins.includes(origin)) return callback(new Error('CORS blocked'), false);
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); // Allow Postman / curl
+    if (!allowedOrigins.includes(origin)) {
+      console.error(`CORS blocked for origin: ${origin}`);
+      return callback(new Error('Not allowed by CORS'), false);
+    }
     return callback(null, true);
   },
   credentials: true
@@ -46,8 +50,8 @@ app.use(cors({
 // ----------------------------
 // 3. Routes
 // ----------------------------
-app.use('/api/users', userRoutes);    // general user routes
-app.use('/api/users', authRoutes);    // signin / signout
+app.use('/api/users', userRoutes);    // General user routes
+app.use('/api/users', authRoutes);    // Signin / signout
 app.use('/api/contacts', contactsRoutes);
 app.use('/api/projects', projectsRoutes);
 app.use('/api/contact-forms', contactForms);
@@ -55,7 +59,7 @@ app.use('/api/testimonials', Testimonials);
 app.use('/api/jobs', AddJob);
 
 // ----------------------------
-// 4. Error handling
+// 4. Error Handling
 // ----------------------------
 app.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') {
