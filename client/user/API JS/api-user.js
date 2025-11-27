@@ -1,21 +1,33 @@
-const API_BASE = "/api/users";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
+if (!BASE_URL) {
+    console.error("❌ VITE_API_URL is missing. Check your .env and Render env vars.");
+}
+
+const API_BASE = `${BASE_URL}/api/users`;
+
+// Parse JSON safely
 const handleResponse = async (response) => {
+    if (!response.ok) {
+        const text = await response.text();
+        throw new Error(`HTTP ${response.status}: ${text}`);
+    }
+
     try {
-        const data = await response.json();
-        return data;
+        return await response.json();
     } catch (err) {
-        console.error("Failed to parse response JSON:", err);
+        console.error("❌ Failed to parse JSON:", err);
         throw err;
     }
 };
 
+// Global error wrapper
 const handleError = (err) => {
-    console.error("API call failed:", err);
+    console.error("❌ API error:", err);
     throw err;
 };
 
-const create = async (user) => {
+export const create = async (user) => {
     try {
         const response = await fetch(API_BASE, {
             method: "POST",
@@ -31,7 +43,7 @@ const create = async (user) => {
     }
 };
 
-const list = async (signal) => {
+export const list = async (signal) => {
     try {
         const response = await fetch(API_BASE, {
             method: "GET",
@@ -43,7 +55,7 @@ const list = async (signal) => {
     }
 };
 
-const read = async ({ userId }, { t }, signal) => {
+export const read = async ({ userId }, { t }, signal) => {
     try {
         const response = await fetch(`${API_BASE}/${userId}`, {
             method: "GET",
@@ -60,7 +72,7 @@ const read = async ({ userId }, { t }, signal) => {
     }
 };
 
-const update = async ({ userId }, { t }, user) => {
+export const update = async ({ userId }, { t }, user) => {
     try {
         const response = await fetch(`${API_BASE}/${userId}`, {
             method: "PUT",
@@ -77,7 +89,7 @@ const update = async ({ userId }, { t }, user) => {
     }
 };
 
-const remove = async ({ userId }, { t }) => {
+export const remove = async ({ userId }, { t }) => {
     try {
         const response = await fetch(`${API_BASE}/${userId}`, {
             method: "DELETE",
@@ -92,5 +104,3 @@ const remove = async ({ userId }, { t }) => {
         return handleError(err);
     }
 };
-
-export { create, list, read, update, remove };
