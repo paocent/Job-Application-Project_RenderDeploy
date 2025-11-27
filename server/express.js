@@ -41,10 +41,9 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin) return callback(null, true); // allow requests like curl, mobile apps
-      if (allowedOrigins.indexOf(origin) === -1) {
-        const msg = `The CORS policy for this site does not allow access from the specified Origin.`;
-        return callback(new Error(msg), false);
+      if (!origin) return callback(null, true); // allow curl or mobile apps
+      if (!allowedOrigins.includes(origin)) {
+        return callback(new Error('CORS blocked by server'), false);
       }
       return callback(null, true);
     },
@@ -57,8 +56,8 @@ app.use(
 // ----------------------------
 // 4. Route Handlers
 // ----------------------------
-app.use('/api/users', userRoutes);
-app.use('/api/users', authRoutes);       // signin / signout
+app.use('/api/users', userRoutes);    // general user routes
+app.use('/api/users', authRoutes);    // signin / signout
 app.use('/api/contacts', contactsRoutes);
 app.use('/api/projects', projectsRoutes);
 app.use('/api/contact-forms', contactForms);
