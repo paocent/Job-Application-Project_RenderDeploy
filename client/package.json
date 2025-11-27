@@ -1,23 +1,22 @@
 {
   "name": "client",
-  "homepage": "https://paocent.github.io/Portfolio_WebDev/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
     "preview": "vite preview",
+    "lint": "eslint .",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
+  "homepage": "https://paocent.github.io/Portfolio_WebDev/",
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.4",
     "@mui/material": "^7.3.4",
-    "express": "^5.1.0",
     "link-react": "^3.0.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
