@@ -6,22 +6,22 @@ import { Route, Routes } from 'react-router-dom';
 // --------------------------------------------------------------------------
 // --- 1. CORE & STATIC IMPORTS ---------------------------------------------
 // --------------------------------------------------------------------------
-import About from './src/about';
+import About from './src/about.jsx';
 
 import Contact from './src/contact.jsx';
-import Layout from './components/Layout';
-import Services from './src/Services';
-import Home from './components/home';
-import Menu from './core/Menu';
+import Layout from './components/Layout.jsx';
+import Services from './src/Services.jsx';
+import Home from './components/home.jsx';
+import Menu from './core/Menu.jsx';
 
 // --------------------------------------------------------------------------
 // --- 2. AUTH & USER IMPORTS -----------------------------------------------
 // --------------------------------------------------------------------------
 import Users from './user/Users-Menu/Users.jsx';
-import Signup from './user/Signup';
-import SignIn from './lib/SignIn';
+import Signup from './user/Signup.jsx';
+import SignIn from './lib/SignIn.jsx';
 import Profile from './user/Profile-Menu/Profile.jsx';
-import PrivateRoute from './lib/PrivateRoute';
+import PrivateRoute from './lib/PrivateRoute.jsx';
 import EditProfile from './user/Profile-Menu/EditProfile.jsx';
 import NewContacts from './user/Contacts-Menu/NewContacts.jsx';
 
