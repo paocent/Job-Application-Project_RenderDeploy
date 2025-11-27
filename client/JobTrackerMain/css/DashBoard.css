@@ -1,0 +1,184 @@
+/* --- Global Reset & Main Dashboard Container --- */
+
+.dashboard-container {
+    /* Use the new class name from the structural update for the main content area */
+    max-width: 1200px;
+    margin: 30px auto; /* Center the dashboard and give it space */
+    padding: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Professional font stack */
+    background-color: #1e1e1e; /* Dark, but not pure black, for better depth */
+    border-radius: 10px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); /* Stronger shadow for floating effect */
+    color: #f0f0f0; /* Light text */
+}
+
+/* --- Header and Section Titles --- */
+
+.dashboard-header-section {
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #333; /* Subtle separator */
+}
+
+.dashboard-title {
+    font-size: 2.2em;
+    font-weight: 600;
+    color: #fff;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+.dashboard-welcome-message {
+    font-size: 1em;
+    color: #b0b0b0;
+}
+
+.section-title {
+    font-size: 1.6em;
+    font-weight: 500;
+    color: #fff;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    border-left: 4px solid #007bff; /* Primary accent color for professionalism */
+    padding-left: 10px;
+}
+
+/* --- Quick Actions Bar --- */
+
+.quick-actions-bar {
+    display: flex;
+    justify-content: flex-end; /* Aligns the button to the right */
+    padding: 10px 0;
+    margin-bottom: 30px;
+}
+
+/* Generic Button Styles (for the Add Application button) */
+.button {
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+}
+
+.button-primary {
+    background-color: #007bff; /* Standard professional blue */
+    color: #fff;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.button-primary:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
+
+/* --- Summary Cards Section --- */
+
+.summary-cards-container {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    flex-wrap: wrap; 
+}
+
+.summary-card {
+    flex: 1; 
+    min-width: 220px;
+    background-color: #2a2a2a; 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    border-top: 5px solid transparent; 
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.summary-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+}
+
+.summary-card-title {
+    font-size: 1em;
+    color: #b0b0b0;
+    margin-bottom: 5px;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.summary-card-value {
+    font-size: 2.5em;
+    font-weight: 700;
+    color: #fff;
+}
+
+/* Color Coding for Cards */
+.card-total { border-top-color: #007bff; }
+.card-active { border-top-color: #ff9800; }
+.card-interview { border-top-color: #4caf50; }
+.card-offer { border-top-color: #6a1901; } /* Keeping your accent color here */
+
+/* --- Application Table Section --- */
+
+.application-table-container {
+    overflow-x: auto; 
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    background-color: #2a2a2a;
+}
+
+.application-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+}
+
+.application-table th, .application-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #333;
+    color: #f0f0f0;
+}
+
+/* Table Header */
+.application-table th {
+    background-color: #333;
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    letter-spacing: 0.5px;
+}
+
+/* Table Body - Alternating Row Colors (Very professional look) */
+.application-table tbody tr:nth-child(even) {
+    background-color: #252525; 
+}
+
+.application-table tbody tr:hover {
+    background-color: #383838; 
+    cursor: pointer;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 15px; /* Pill shape */
+    font-size: 0.85em;
+    font-weight: bold;
+    display: inline-block;
+    min-width: 80px;
+    text-align: center;
+}
+
+.status-applied { background-color: #007bff; color: #fff; }       
+.status-interviewing { background-color: #4caf50; color: #fff; }  
+.status-offer { background-color: #6a1901; color: #fff; }         
+.status-rejected { background-color: #f44336; color: #fff; }      
+.status-other { background-color: #ff9800; color: #fff; }

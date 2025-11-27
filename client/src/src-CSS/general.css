@@ -1,0 +1,245 @@
+/*
+GENERAL.CSS - Stylesheet for Job Application Tracker (JAT)
+Author: Paolo Andrei Adame
+Last updated: [CURRENT DATE]
+-----------------------------------------------------------------------
+REVISION NOTES:
+- Implemented CSS variables for theme customization and consistency.
+- Standardized content container classes for better reusability (e.g., .content-container).
+- Removed problematic 'position: fixed' from main content areas.
+- Updated colors and structure for a cleaner dark-theme look.
+-----------------------------------------------------------------------
+*/
+
+:root {
+    /* 1. Theme Colors */
+    --color-bg-dark: #1e1e1e; /* Main container background (was #1e1e1e in Layout.css) */
+    --color-bg-card: #2a2a2a; /* Card background (was #2e2e2e) */
+    --color-primary-accent: #00bfff; /* Deep Sky Blue - used for links/buttons (was #00bfff in Layout.css) */
+    --color-header: #6a1901; /* Header title color */
+    --color-text-light: #f5f5f5; /* Light text (was #fffafa) */
+    --color-text-muted: #b0b0b0; /* Secondary text */
+    --color-border: #444; /* Border/HR color */
+
+    /* 2. Spacing */
+    --spacing-md: 15px;
+    --spacing-lg: 25px;
+
+    /* 3. Typography */
+    --font-size-body: 1.1em; /* Slightly reduced for general body */
+    --line-height-body: 1.7;
+    --font-size-header: 2.8em; /* Slightly larger for impact */
+}
+
+/* ----------------------------------------------------
+| 1. General Containers & Layout
+| ---------------------------------------------------- */
+
+/* Generic wrapper for content blocks, provides central alignment and base color. */
+.content-container {
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+    background-color: var(--color-bg-dark); /* Use variable */
+    border-radius: 8px;
+    /* Adjusted shadow for a softer lift effect */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); 
+    color: var(--color-text-light); /* Use variable */
+}
+
+/* Main content area (replaces .main-content, removing fixed positioning) */
+.page-content {
+    text-align: left;
+    margin-top: 30px; /* Use standard margin for flow */
+    margin-bottom: 20px;
+    width: 90%; /* Use relative width */
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 0;
+}
+
+/* High-visibility page/section title */
+.header {
+    text-align: center;
+    margin-top: 20px;
+    font-size: var(--font-size-header); /* Use variable */
+    color: var(--color-header); /* Use variable */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+    font-family: 'Arial Black', sans-serif;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+/* Typographic body text containers */
+.text-body { /* New, unified class for body text styling (replaces .education-body, .about-body) */
+    padding: 10px 0;
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+}
+
+/* ----------------------------------------------------
+| 2. Images & Specific Elements
+| ---------------------------------------------------- */
+
+.about-image {
+    display: block;
+    margin: 0 auto 20px auto;
+    max-width: 180px; /* Slightly smaller for balance */
+    height: 180px;
+    border-radius: 50%;
+    /* Ensure image fits circular container */
+    object-fit: cover; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border: 3px solid var(--color-primary-accent); /* Added accent border */
+}
+
+/* ----------------------------------------------------
+| 3. Project/Job Card Grid (Used for job list)
+| ---------------------------------------------------- */
+
+.card-grid-main { /* Renamed from .project-main */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px; /* Increased gap for visual space */
+    margin-top: 30px;
+}
+
+.standard-card { /* Renamed from .project-card */
+    background-color: var(--color-bg-card); /* Use variable */
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    width: 320px; /* Slightly wider */
+    padding: var(--spacing-md);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid transparent; /* Prepare for hover border */
+}
+
+.standard-card:hover {
+    transform: translateY(-8px); /* More noticeable lift */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--color-primary-accent); /* Highlight on hover */
+}
+
+.card-image { /* Renamed from .project-image */
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* ----------------------------------------------------
+| 4. Services/Feature Cards (Can be used for JAT summary)
+| ---------------------------------------------------- */
+
+.feature-section { /* Renamed from .services-section */
+    padding: var(--spacing-lg);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.feature-grid { /* Renamed from .services-container */
+    display: grid;
+    /* Use responsive columns for modern design */
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+    gap: 30px; 
+    margin-top: 20px;
+}
+
+.feature-card { /* Renamed from .service-card */
+    background-color: var(--color-bg-card); /* Use variable */
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    padding: var(--spacing-md);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}   
+
+.feature-card h3 {
+    color: var(--color-primary-accent); /* Highlight headings */
+    font-size: 1.4em;
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    font-size: 1em;
+    color: var(--color-text-muted); /* Muted color for body text */
+}
+
+/* ----------------------------------------------------
+| 5. Contact Form (Used for Add Job Form)
+| ---------------------------------------------------- */
+
+.form-container { /* Renamed from .contact-container, removed fixed position */
+    text-align: center;
+    margin: 30px auto; 
+    width: 90%;
+    max-width: 600px;
+    background-color: var(--color-bg-dark);
+    border-radius: 8px;
+    padding: var(--spacing-lg);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+
+.standard-form { /* Renamed from .contact-form */
+    display: flex;
+    flex-direction: column;
+    /* No fixed width here, let container handle it */
+    margin: 0 auto; 
+}
+
+.standard-form label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: left;
+    margin-top: 10px;
+    color: var(--color-text-light);
+}
+
+.standard-form input, 
+.standard-form textarea,
+.standard-form select { /* Added select for status dropdown */
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background-color: #333; /* Darker input background */
+    color: var(--color-text-light);
+    font-size: var(--font-size-body);
+}
+
+.standard-form button {
+    padding: 12px;
+    background-color: #4CAF50; /* Submit green */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease;
+}
+
+.standard-form button:hover {
+    background-color: #5CB85C; /* Lighter green on hover */
+}
+
+/* ----------------------------------------------------
+| 6. Accessibility & Utility Improvements
+| ---------------------------------------------------- */
+
+/* Ensure form controls and links have visible focus states */
+a:focus, 
+button:focus, 
+input:focus, 
+textarea:focus,
+select:focus {
+    outline: 2px solid var(--color-primary-accent);
+    outline-offset: 2px;
+}

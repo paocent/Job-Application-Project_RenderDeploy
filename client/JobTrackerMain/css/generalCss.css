@@ -1,0 +1,267 @@
+/*  
+general.css
+Paolo Andrei Adame
+September 20 2025
+*/
+
+.container {
+    margin: 0 auto;
+    padding: 20px;
+    /* background-color: #3e3c3c; */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    color: #fffafa;
+}
+
+.main-content {
+    text-align: left;
+    margin-top: 180px;
+    margin-bottom: 20px;
+    width: 80%;
+    /* background-color: #4f4a4a; */
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 8px;
+    max-height: none;
+}
+
+.education-body{
+
+    font-size: 1.2em;
+    line-height: 1.6;
+}
+
+
+.about-body {
+    padding: 20px;
+    font-size: 1.2em;
+    line-height: 1.6;
+}
+
+
+
+.header {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 2.5em;
+    color: #6a1901;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    font-family: 'Arial Black', sans-serif;
+    font-weight: bold;
+    margin-bottom: 20px;
+
+}
+.about-image {
+    display: block;
+    margin: 0 auto 20px auto;
+    max-width: 200px;
+    height: auto;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.project-main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+.project-card {
+    background-color: #2e2e2e;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.project-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.services-section {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.services-section h1 {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.services-section h2 {
+    font-size: 1.2em;
+    font-weight: normal;
+    color: #b0b0b0;
+    margin-bottom: 20px;
+}
+
+.services-container { /* 3 column layout */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 50px;
+}
+
+.service-card {
+    background-color: #2e2e2e;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card h3 {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #e0e0e0;
+}
+
+.service-card p {
+    font-size: 1em;
+    color: #b0b0b0;
+    margin: 0;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}   
+
+.service-image {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 15px;
+}
+
+/* --- 1. Summary Cards Styling (Assumed class for the container in SummaryCards.jsx) --- */
+.summary-cards-container {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+}
+
+/* Assumed class for each individual card */
+.summary-card {
+    flex: 1; /* Distributes space evenly */
+    min-width: 220px;
+    background-color: #2e2e2e; /* Slightly darker than main page background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    border-top: 5px solid transparent; /* Prepare for color-coded top border */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.summary-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+}
+
+.summary-card-title {
+    font-size: 1em;
+    color: #b0b0b0;
+    margin-bottom: 5px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.summary-card-value {
+    font-size: 2.5em;
+    font-weight: 700;
+    color: #fffafa;
+}
+
+/* Color Coding for Professional Status Tracking */
+.card-total {
+    border-top-color: #007bff; /* Blue for Total */
+}
+.card-active {
+    border-top-color: #ff9800; /* Orange for Active Tracking */
+}
+.card-interview {
+    border-top-color: #4caf50; /* Green for Interviewing */
+}
+.card-offer {
+    border-top-color: #6a1901; /* Your accent color for Offers */
+}
+
+/* --- 2. Application Table Styling (Assumed class for the table container in ApplicationTable.jsx) --- */
+.application-table-container {
+    overflow-x: auto; /* Ensures horizontal scroll on small screens */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    background-color: #2e2e2e; /* Table background */
+}
+
+.application-table {
+    width: 100%;
+    border-collapse: collapse; /* Clean table lines */
+    min-width: 600px; /* Minimum width to prevent crushing columns */
+}
+
+.application-table th, .application-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #3e3c3c; /* Subtle divider lines */
+}
+
+/* Table Header */
+.application-table th {
+    background-color: #3e3c3c;
+    color: #fffafa;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    letter-spacing: 0.5px;
+}
+
+/* Table Body - Alternating Row Colors */
+.application-table tbody tr:nth-child(even) {
+    background-color: #333333; /* Darker alternate rows */
+}
+
+.application-table tbody tr:hover {
+    background-color: #4f4f4f; /* Highlight row on hover */
+    cursor: pointer;
+}
+
+/* Status Badges (Example for status cell) */
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.85em;
+    font-weight: bold;
+    display: inline-block;
+    min-width: 80px;
+    text-align: center;
+}
+
+/* Status-specific Colors (These should be applied dynamically in your ApplicationTable component) */
+.status-applied { background-color: #007bff; color: #fff; }       /* Blue */
+.status-interviewing { background-color: #4caf50; color: #fff; }  /* Green */
+.status-offer { background-color: #6a1901; color: #fff; }         /* Primary Accent */
+.status-rejected { background-color: #f44336; color: #fff; }      /* Red */
+.status-other { background-color: #ff9800; color: #fff; }         /* Orange */
