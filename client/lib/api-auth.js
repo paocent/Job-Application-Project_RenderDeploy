@@ -1,12 +1,12 @@
 const BASE_URL = import.meta.env.VITE_API_URL; // must be https://job-application-project-renderdeploy.onrender.com
-const API_AUTH = `${BASE_URL}/api/users`;
+const API_AUTH = `${BASE_URL}/api/users`;      // do NOT include /auth
 
 export const signin = async (user) => {
   try {
-    const response = await fetch(`${API_AUTH}/signin`, {  // <-- correct path
+    const response = await fetch(`${API_AUTH}/signin`, { // matches backend
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',  // sends cookies
+      credentials: 'include', // include cookies
       body: JSON.stringify(user)
     });
     return await response.json();

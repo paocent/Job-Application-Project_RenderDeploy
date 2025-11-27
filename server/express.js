@@ -35,23 +35,18 @@ app.use(helmet());
 // ----------------------------
 const allowedOrigins = [
   'https://job-application-project-renderdeploy-otfv.onrender.com', // frontend
-  'http://localhost:5173', // local dev
+  'http://localhost:5173' // for local dev
 ];
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true); // allow curl or mobile apps
-      if (!allowedOrigins.includes(origin)) {
-        return callback(new Error('CORS blocked by server'), false);
-      }
-      return callback(null, true);
-    },
-    credentials: true, // allow cookies / auth headers
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  })
-);
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true); // allow Postman, curl
+    if (!allowedOrigins.includes(origin)) return callback(new Error('CORS blocked'), false);
+    return callback(null, true);
+  },
+  credentials: true // allow cookies / credentials
+}));
+
 
 // ----------------------------
 // 4. Route Handlers
