@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import '../src/src-CSS/general.css';
 
+const API_URL = import.meta.env.VITE_API_URL; // Backend URL
+
 // ⚠️ API Helper Function for Fetching Testimonials
 const listTestimonials = async () => {
   try {
-    // 🔑 Public endpoint - usually no Authorization header needed
-    const response = await fetch('/api/testimonials', {
+    const response = await fetch(`${API_URL}/api/testimonials`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
-      }
+      },
+      credentials: 'include'
     });
-    
+
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -25,10 +27,7 @@ const listTestimonials = async () => {
 };
 
 // Helper to render star rating 
-const renderRating = (num) => {
-    return '⭐'.repeat(num);
-};
-
+const renderRating = (num) => '⭐'.repeat(num);
 
 export default function Testimonials() {
     const [testimonials, setTestimonials] = useState([]);
@@ -83,9 +82,7 @@ export default function Testimonials() {
                                 "{testimonial.quote}"
                             </p>
                             
-                            <p>
-                                **{renderRating(testimonial.rating)}**
-                            </p>
+                            <p>{renderRating(testimonial.rating)}</p>
                             
                             <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9em' }}>
                                 — {testimonial.roleOrCompany}
