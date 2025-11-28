@@ -32,7 +32,7 @@ app.use(helmet());
 // ----------------------------
 const allowedOrigins = [
   'https://job-application-project-renderdeploy-ofv.onrender.com', // ✅ Corrected frontend URL
-  'https://job-application-project-renderdeploy.onrender.com',
+  'https://job-application-project-renderdeploy.onrender.com/',
   'http://localhost:5173', // Local development
   "http://127.0.0.1:5173",
 ];
@@ -52,8 +52,8 @@ app.use(cors({
 // ----------------------------
 // 3. Routes
 // ----------------------------
-app.use('/api/users', authRoutes);    // **MOVE THIS FIRST: Catches /signin and /signout**
-app.use('/api/users', userRoutes);    // General user routes follow
+app.use('/api/users', userRoutes);    // General user routes
+app.use('/api/users', authRoutes);    // Signin / signout
 app.use('/api/contacts', contactsRoutes);
 app.use('/api/projects', projectsRoutes);
 app.use('/api/contact-forms', contactForms);
@@ -70,23 +70,6 @@ app.use((err, req, res, next) => {
     console.error(err);
     res.status(400).json({ error: `${err.name}: ${err.message}` });
   }
-});
-
-// ----------------------------
-// 5. Serve Frontend (Add this AFTER API routes & error handling)
-// ----------------------------
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Serve static files from frontend build
-app.use(express.static(path.join(__dirname, '../client/dist')));
-
-// Send index.html for all other frontend routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
 export default app;
