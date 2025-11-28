@@ -52,8 +52,8 @@ app.use(cors({
 // ----------------------------
 // 3. Routes
 // ----------------------------
-app.use('/api/users', userRoutes);    // General user routes
-app.use('/api/users', authRoutes);    // Signin / signout
+app.use('/api/users', authRoutes);    // **MOVE THIS FIRST: Catches /signin and /signout**
+app.use('/api/users', userRoutes);    // General user routes follow
 app.use('/api/contacts', contactsRoutes);
 app.use('/api/projects', projectsRoutes);
 app.use('/api/contact-forms', contactForms);
