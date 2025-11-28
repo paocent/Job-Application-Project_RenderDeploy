@@ -39,9 +39,11 @@ export default function Contact() {
     try {
       // ✅ Send to correct endpoint: /api/contact
       // src/components/Contact.jsx
-const response = await fetch(`${API_URL}/api/contact`, {
+const response = await fetch(`${API_URL}/api/contactForms`, {
   method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+  headers: {
+    'Content-Type': 'application/json',
+  },
   body: JSON.stringify(formData),
 });
 

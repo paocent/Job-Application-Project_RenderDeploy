@@ -56,7 +56,7 @@ app.use('/api/users', authRoutes);       // signin, signout
 app.use('/api/users', userRoutes);       // general user routes
 app.use('/api/contacts', contactsRoutes);
 app.use('/api/projects', projectsRoutes);
-app.use('/api', contactForms);           // ✅ mounts /api/contact correctly
+app.use('/api/contactForms', contactForms);           // ✅ mounts /api/contact correctly
 app.use('/api/testimonials', Testimonials);
 app.use('/api/jobs', AddJob);
 
