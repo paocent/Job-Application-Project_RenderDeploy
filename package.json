@@ -40,7 +40,7 @@
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "method-override": "^3.0.0",
-    "mongoose": "^8.18.2",
+    "mongoose": "^9.0.0",
     "prop-types": "^15.8.1",
     "react-router-dom": "^7.9.3"
   }
