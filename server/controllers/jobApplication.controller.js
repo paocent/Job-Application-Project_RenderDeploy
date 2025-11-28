@@ -46,10 +46,13 @@ const create = async (req, res) => {
 
 const listByUser = async (req, res) => {
     try {
-        // Find ONLY jobs where the userId matches the signed-in user's ID
+        console.log("Fetching jobs for user:", req.auth._id);
+
         let jobs = await Job.find({ userId: req.auth._id })
                              .sort({ appliedDate: -1 });
-        
+
+        console.log("Jobs found:", jobs.length);
+
         res.json(jobs);
     } catch (err) {
         return res.status(400).json({
@@ -57,6 +60,7 @@ const listByUser = async (req, res) => {
         });
     }
 };
+
 
 const read = (req, res) => {
     // 🔑 FINAL FIX: Access req.job.userId._id before calling .toString().

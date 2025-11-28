@@ -1,8 +1,10 @@
 // src/components/DeleteJob.jsx
 
 import React, { useState } from 'react';
-import auth from '../../lib/auth-helper.js'; // Adjust path
+import auth from '../../lib/auth-helper.js';
 import { useNavigate } from 'react-router-dom';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function DeleteJob({ jobId }) {
     const [isDeleting, setIsDeleting] = useState(false);
@@ -17,16 +19,19 @@ export default function DeleteJob({ jobId }) {
         setIsDeleting(true);
 
         try {
-            const response = await fetch(`/api/jobs/${jobId}`, {
+            const response = await fetch(`${API_URL}/api/jobs/${jobId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': 'Bearer ' + isAuthenticated.token,
+                    'Accept': 'application/json'
                 },
+                credentials: 'include'
             });
 
             if (response.ok) {
-                // Deletion successful, redirect to dashboard
-                navigate('/', { state: { message: 'Application deleted successfully!' } });
+                navigate('/dashboard', {
+                    state: { message: 'Application deleted successfully!' }
+                });
             } else {
                 const errorData = await response.json();
                 alert(`Deletion failed: ${errorData.error || response.statusText}`);
@@ -45,7 +50,7 @@ export default function DeleteJob({ jobId }) {
             disabled={isDeleting || !isAuthenticated}
             style={{ 
                 backgroundColor: 'darkred', 
-                color: 'white', 
+                color: 'white',
                 flexGrow: 1,
                 padding: '10px 20px',
                 border: 'none',

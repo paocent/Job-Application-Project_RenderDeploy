@@ -44,13 +44,15 @@ export default function AddJob() {
         }
 
         try {
-            const response = await fetch('/api/jobs', {
+            const API_URL = import.meta.env.VITE_API_URL;
+
+            const response = await fetch(`${API_URL}/api/jobs`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    // 🔑 Sends the correct token from the helper object
-                    'Authorization': 'Bearer ' + isAuthenticated.token, 
+                    'Authorization': 'Bearer ' + isAuthenticated.token,
                 },
+                credentials: 'include',
                 body: JSON.stringify(formData),
             });
 
