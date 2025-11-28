@@ -1,4 +1,4 @@
-// src/routes/job.routes.js
+// server/routes/jobApplication.routes.js
 console.log('Job routes loaded');
 import express from 'express';
 import jobCtrl from '../controllers/jobApplication.controller.js';
@@ -8,7 +8,10 @@ const router = express.Router();
 
 // --- Base Routes: GET /api/jobs, POST /api/jobs ---
 router.route('/')
-  .get(authCtrl.requireSignin, jobCtrl.listByUser)
+  .get(authCtrl.requireSignin, (req, res, next) => {
+      console.log('GET /api/jobs hit');
+      next();
+  }, jobCtrl.listByUser)
   .post(authCtrl.requireSignin, jobCtrl.create);
 
 // --- Single Job Routes: GET/PUT/DELETE /api/jobs/:jobId ---
@@ -19,11 +22,5 @@ router.route('/:jobId')
 
 // --- Parameter Middleware ---
 router.param('jobId', jobCtrl.jobByID);
-
-router.get('/', authCtrl.requireSignin, (req, res, next) => {
-  console.log('GET /api/jobs hit');
-  next();
-}, jobCtrl.listByUser);
-
 
 export default router;
