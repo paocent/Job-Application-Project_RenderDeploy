@@ -20,4 +20,10 @@ router.route('/:jobId')
 // --- Parameter Middleware ---
 router.param('jobId', jobCtrl.jobByID);
 
+router.get('/', authCtrl.requireSignin, (req, res, next) => {
+  console.log('GET /api/jobs hit');
+  next();
+}, jobCtrl.listByUser);
+
+
 export default router;

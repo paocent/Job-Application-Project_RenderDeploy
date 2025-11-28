@@ -8,7 +8,7 @@ import './css/DashBoard.css';
 import auth from '../lib/auth-helper';
 
 const API_URL = import.meta.env.VITE_API_URL; // Backend URL from .env
-
+console.log('API_URL:', API_URL);  // Debug: should print the URL
 // --- API function to fetch job list ---
 const listJobs = async () => {
     const jwt = auth.isAuthenticated();
@@ -19,11 +19,12 @@ const listJobs = async () => {
 
     try {
         const response = await fetch(`${API_URL}/api/jobs`, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': 'Bearer ' + jwt.token,
-            }
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + jwt.token,
+        },
+        credentials: 'include'
         });
 
         // Read as text first to safely handle HTML errors
