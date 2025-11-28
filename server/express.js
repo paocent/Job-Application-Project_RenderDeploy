@@ -1,11 +1,14 @@
-
+// server/express.js
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import compress from 'compression';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+// Import routes
 import userRoutes from './routes/user.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import contactsRoutes from './routes/contacts.routes.js';
@@ -31,15 +34,14 @@ app.use(helmet());
 // 2. CORS Configuration
 // ----------------------------
 const allowedOrigins = [
-  'https://job-application-project-renderdeploy-ofv.onrender.com', // ✅ Corrected frontend URL
-  'https://job-application-project-renderdeploy.onrender.com/',
-  'http://localhost:5173', // Local development
-  "http://127.0.0.1:5173",
+  'https://job-application-project-renderdeploy-otfv.onrender.com', // frontend deployed URL
+  'http://localhost:5173', // local dev
+  'http://127.0.0.1:5173',
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin) return callback(null, true); // Allow Postman / curl
+    if (!origin) return callback(null, true); // allow curl/Postman
     if (!allowedOrigins.includes(origin)) {
       console.error(`CORS blocked for origin: ${origin}`);
       return callback(new Error('Not allowed by CORS'), false);
@@ -50,10 +52,10 @@ app.use(cors({
 }));
 
 // ----------------------------
-// 3. Routes
+// 3. API Routes
 // ----------------------------
-app.use('/api/users', userRoutes);    // General user routes
-app.use('/api/users', authRoutes);    // Signin / signout
+app.use('/api/users', authRoutes);   // signin, signout
+app.use('/api/users', userRoutes);   // general user routes
 app.use('/api/contacts', contactsRoutes);
 app.use('/api/projects', projectsRoutes);
 app.use('/api/contact-forms', contactForms);
@@ -70,6 +72,20 @@ app.use((err, req, res, next) => {
     console.error(err);
     res.status(400).json({ error: `${err.name}: ${err.message}` });
   }
+});
+
+// ----------------------------
+// 5. Serve Frontend (Optional)
+// ----------------------------
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve frontend build folder
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+// Send index.html for all other non-API routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
 export default app;
