@@ -1,5 +1,4 @@
 // src/components/EditJob.jsx
-
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import auth from '../../lib/auth-helper.js';
@@ -8,7 +7,7 @@ import '../css/EditJob.css';
 import DeleteJob from './DeleteJob.jsx';
 import { format } from 'date-fns';
 
-const API_URL = import.meta.env.VITE_API_URL; // 🔑 Use backend URL
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function EditJob() {
     const { jobId } = useParams();
@@ -44,13 +43,12 @@ export default function EditJob() {
                     headers: {
                         'Authorization': 'Bearer ' + isAuthenticated.token,
                         'Accept': 'application/json'
-                    },
-                    credentials: 'include'
+                    }
                 });
 
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+                    const text = await response.text();
+                    throw new Error(text || `HTTP error! status: ${response.status}`);
                 }
 
                 const data = await response.json();
@@ -75,7 +73,7 @@ export default function EditJob() {
         };
 
         fetchJobData();
-    }, [jobId, isAuthenticated, navigate]);
+    }, [jobId]);
 
     // --- Form Handlers ---
     const handleChange = (e) => {
@@ -91,33 +89,28 @@ export default function EditJob() {
 
         try {
             const response = await fetch(`${API_URL}/api/jobs/${jobId}`, {
-                method: 'PUT',
+                method: 'PUT', // 🔑 Correct HTTP method
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + isAuthenticated.token
                 },
-                credentials: 'include',
                 body: JSON.stringify(formData)
             });
 
-            if (response.ok) {
-                setFeedback('Application updated successfully! Redirecting...');
-                setIsSuccess(true);
-                setTimeout(() => navigate('/dashboard'), 1500);
-            } else {
-                const errorData = await response.json();
-                if (response.status === 401 || response.status === 403) {
-                    auth.clearJWT(() => navigate('/signin'));
-                    setFeedback('Session expired. Please sign in again.');
-                } else {
-                    setFeedback(`Update failed: ${errorData.error || response.statusText}`);
-                }
-                setIsSuccess(false);
+            if (!response.ok) {
+                const text = await response.text();
+                throw new Error(text || `HTTP error! status: ${response.status}`);
             }
+
+            setFeedback('Application updated successfully! Redirecting...');
+            setIsSuccess(true);
+            setTimeout(() => navigate('/dashboard'), 1500);
         } catch (error) {
-            console.error('Error updating job:', error);
-            setFeedback('A network error occurred.');
+            setFeedback(`Update failed: ${error.message}`);
             setIsSuccess(false);
+            if (error.message.includes('403') || error.message.includes('401')) {
+                auth.clearJWT(() => navigate('/signin'));
+            }
         }
     };
 
