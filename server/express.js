@@ -32,7 +32,8 @@ app.use(helmet());
 // ----------------------------
 const allowedOrigins = [
   'https://job-application-project-renderdeploy-ofv.onrender.com', // ✅ Corrected frontend URL
-  'http://localhost:5173' // Local development
+  'http://localhost:5173', // Local development
+  "http://127.0.0.1:5173",
 ];
 
 app.use(cors({

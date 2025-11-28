@@ -1,15 +1,16 @@
 
 const API_URL = import.meta.env.VITE_API_URL; // e.g., https://job-application-project-renderdeploy-ofv.onrender.com
 
+
 const signin = async (user) => {
     try {
-        const response = await fetch(`${API_URL}/api/users/signin`, { // ✅ Fixed path
+        const response = await fetch(`${API_URL}/api/users/signin`, { // ✅ Correct path
             method: "POST",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
             },
-            credentials: "include", // ✅ Important for cookies
+            credentials: "include",
             body: JSON.stringify(user),
         });
 
@@ -24,6 +25,7 @@ const signin = async (user) => {
         console.error("Signin API Error:", err);
     }
 };
+
 
 const signout = async () => {
     try {
