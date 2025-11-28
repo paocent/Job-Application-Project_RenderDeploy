@@ -76,18 +76,5 @@ app.use((err, req, res, next) => {
   }
 });
 
-// ----------------------------
-// 5. Serve Frontend (SPA)
-// ----------------------------
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Serve static frontend files
-app.use(express.static(path.join(__dirname, '../client/dist')));
-
-// Catch-all route for SPA (skip API routes)
-app.get(/^(?!\/api).*/, (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-});
 
 export default app;
