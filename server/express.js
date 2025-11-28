@@ -71,20 +71,25 @@ app.use((err, req, res, next) => {
   } else if (err) {
     console.error(err);
     res.status(400).json({ error: `${err.name}: ${err.message}` });
+  } else {
+    next();
   }
 });
 
 // ----------------------------
-// 5. Serve Frontend (Optional)
+// 5. Serve Frontend (SPA)
 // ----------------------------
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Serve frontend build folder
+// Serve static frontend files
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
-// Send index.html for all other non-API routes
-app.get('*', (req, res) => {
+// Catch-all route for SPA (non-API routes)
+app.get('/*', (req, res) => {
+  if (req.path.startsWith('/api')) {
+    return res.status(404).json({ error: 'API route not found' });
+  }
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
