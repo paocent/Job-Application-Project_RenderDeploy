@@ -1,5 +1,5 @@
 // src/routes/job.routes.js
-
+console.log('Job routes loaded');
 import express from 'express';
 import jobCtrl from '../controllers/jobApplication.controller.js';
 import authCtrl from '../controllers/auth.controller.js';
