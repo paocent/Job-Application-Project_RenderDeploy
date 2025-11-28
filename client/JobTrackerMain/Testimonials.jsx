@@ -8,23 +8,27 @@ const listTestimonials = async () => {
   try {
     const response = await fetch(`${API_URL}/api/testimonials`, {
       method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-      },
+      headers: { 'Accept': 'application/json' },
       credentials: 'include'
     });
 
     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      let errMsg = `HTTP error! status: ${response.status}`;
+      try {
+        const errData = await response.json();
+        errMsg = errData.error || errMsg;
+      } catch {}
+      throw new Error(errMsg);
     }
 
     return await response.json();
 
   } catch (error) {
     console.error('Failed to fetch testimonials:', error);
-    return { error: 'Could not load testimonials', data: [] };
+    return { error: error.message || 'Could not load testimonials', data: [] };
   }
 };
+
 
 // Helper to render star rating 
 const renderRating = (num) => '⭐'.repeat(num);
