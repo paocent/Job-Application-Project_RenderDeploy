@@ -7,7 +7,9 @@ import SummaryCards from './SummaryCards';
 import './css/DashBoard.css';
 import auth from '../lib/auth-helper';
 
-// API function to fetch the list of job applications for the logged-in user
+const API_URL = import.meta.env.VITE_API_URL; // backend URL (Render deployment)
+
+// --- API function to fetch job list ---
 const listJobs = async () => {
     const jwt = auth.isAuthenticated();
 
@@ -16,23 +18,28 @@ const listJobs = async () => {
     }
 
     try {
-        const response = await fetch('/api/jobs', {
+        const response = await fetch(`${API_URL}/api/jobs`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': 'Bearer ' + jwt.token,
             }
         });
-        
-        if (!response.ok) {
-            const errorData = await response.json();
-            if (response.status === 401 || response.status === 403) {
-                throw new Error(`Authentication error! status: ${response.status}`);
-            }
-            throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+
+        // Read as text first to prevent JSON parse error
+        const text = await response.text();
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch {
+            data = null;
         }
 
-        return await response.json();
+        if (!response.ok) {
+            throw new Error(data?.error || text || `HTTP error! status: ${response.status}`);
+        }
+
+        return data;
 
     } catch (error) {
         console.error('Failed to fetch job list:', error);
@@ -53,7 +60,11 @@ export default function DashboardSummary() {
             const data = await listJobs();
 
             if (data.error) {
-                if (data.error.includes('401') || data.error.includes('403') || data.error.includes('token missing')) {
+                if (
+                    data.error.includes('401') ||
+                    data.error.includes('403') ||
+                    data.error.includes('token missing')
+                ) {
                     auth.clearJWT(() => navigate('/signin'));
                     setError('Session expired. Please sign in again.');
                 } else {
@@ -61,27 +72,20 @@ export default function DashboardSummary() {
                 }
                 setJobs([]);
             } else {
-                // Ensure data is an array before setting state
                 setJobs(Array.isArray(data) ? data : []);
             }
+
             setLoading(false);
         };
 
         fetchJobs();
-    }, [navigate]); 
+    }, [navigate]);
 
-    // --- Calculate Summary Data ---
+    // --- Summary Calculations ---
     const total = jobs.length;
-    
-    // Active Tracking: All jobs that are NOT a final outcome (Offer or Rejected).
-    const activeTracking = jobs.filter(job => 
-        job.status !== 'Offer' && 
-        job.status !== 'Rejected'
-    ).length;
-    
+    const activeTracking = jobs.filter(job => job.status !== 'Offer' && job.status !== 'Rejected').length;
     const interviewing = jobs.filter(job => job.status === 'Interviewing').length;
     const offers = jobs.filter(job => job.status === 'Offer').length;
-    // ------------------------------
 
     if (loading) {
         return <div className="loading-state-container"><p>Loading your job tracker data...</p></div>;
@@ -91,27 +95,21 @@ export default function DashboardSummary() {
         return <div className="error-state-container"><p style={{ color: 'red' }}>Error: {error}</p></div>;
     }
 
-
     return (
-        // 1. Use a standard container class for max-width and centering
-        <div className="dashboard-page-content"> 
-            
-            {/* Header Section */}
+        <div className="dashboard-page-content">
             <header className="dashboard-header-section">
                 <h1 className='dashboard-title'>Application Tracker Dashboard</h1>
                 <p className='dashboard-welcome-message'>
-                    Welcome! Here's a quick look at your **job search progress**.
+                    Welcome! Here's a quick look at your job search progress.
                 </p>
             </header>
-            
-            {/* Quick Action Section (Moved up for better visibility) */}
+
             <section className="quick-actions-bar">
-                <Link to="/add-job" className="button button-primary"> 
-                    + **Add New Application**
+                <Link to="/add-job" className="button button-primary">
+                    + Add New Application
                 </Link>
             </section>
-            
-            {/* Summary Cards Section */}
+
             <section className="summary-section">
                 <h2 className='section-title'>Progress Overview</h2>
                 <SummaryCards 
@@ -122,12 +120,10 @@ export default function DashboardSummary() {
                 />
             </section>
 
-            {/* Application Table Section */}
             <section className="table-section">
                 <h2 className='section-title'>Recent Applications</h2>
                 <ApplicationTable jobs={jobs} />
             </section>
-            
         </div>
     );
 }
