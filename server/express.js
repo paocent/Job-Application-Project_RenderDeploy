@@ -85,11 +85,8 @@ const __dirname = path.dirname(__filename);
 // Serve static frontend files
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
-// Catch-all route for SPA (non-API routes)
-app.get('/*', (req, res) => {
-  if (req.path.startsWith('/api')) {
-    return res.status(404).json({ error: 'API route not found' });
-  }
+// Catch-all route for SPA (skip API routes)
+app.get(/^(?!\/api).*/, (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
