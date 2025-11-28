@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import './src-CSS/contact.css';
 
-const API_URL = import.meta.env.VITE_API_URL; // Use backend URL
+const API_URL = import.meta.env.VITE_API_URL; // Use your backend URL
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -37,7 +37,8 @@ export default function Contact() {
     setIsSuccess(false);
 
     try {
-      const response = await fetch(`${API_URL}/api/contact-forms`, {
+      // ✅ Send to correct endpoint: /api/contact
+      const response = await fetch(`${API_URL}/api/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -52,10 +53,12 @@ export default function Contact() {
       } else {
         const errorData = await response.json().catch(() => ({}));
         setFeedback(`Failed to send message: ${errorData.error || response.statusText}`);
+        setIsSuccess(false);
       }
     } catch (error) {
       console.error('Network Error:', error);
       setFeedback('A network error occurred. Please try again later.');
+      setIsSuccess(false);
     }
   };
 
