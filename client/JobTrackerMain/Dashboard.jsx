@@ -7,7 +7,7 @@ import SummaryCards from './SummaryCards';
 import './css/DashBoard.css';
 import auth from '../lib/auth-helper';
 
-const API_URL = import.meta.env.VITE_API_URL; // backend URL (Render deployment)
+const API_URL = import.meta.env.VITE_API_URL; // Backend URL from .env
 
 // --- API function to fetch job list ---
 const listJobs = async () => {
@@ -26,14 +26,10 @@ const listJobs = async () => {
             }
         });
 
-        // Read as text first to prevent JSON parse error
+        // Read as text first to safely handle HTML errors
         const text = await response.text();
         let data;
-        try {
-            data = JSON.parse(text);
-        } catch {
-            data = null;
-        }
+        try { data = JSON.parse(text); } catch { data = null; }
 
         if (!response.ok) {
             throw new Error(data?.error || text || `HTTP error! status: ${response.status}`);
@@ -60,6 +56,7 @@ export default function DashboardSummary() {
             const data = await listJobs();
 
             if (data.error) {
+                // Authentication error handling
                 if (
                     data.error.includes('401') ||
                     data.error.includes('403') ||
@@ -88,11 +85,19 @@ export default function DashboardSummary() {
     const offers = jobs.filter(job => job.status === 'Offer').length;
 
     if (loading) {
-        return <div className="loading-state-container"><p>Loading your job tracker data...</p></div>;
+        return (
+            <div className="loading-state-container">
+                <p>Loading your job tracker data...</p>
+            </div>
+        );
     }
 
     if (error) {
-        return <div className="error-state-container"><p style={{ color: 'red' }}>Error: {error}</p></div>;
+        return (
+            <div className="error-state-container">
+                <p style={{ color: 'red' }}>Error: {error}</p>
+            </div>
+        );
     }
 
     return (
