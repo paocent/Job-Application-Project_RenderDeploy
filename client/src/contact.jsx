@@ -38,13 +38,13 @@ export default function Contact() {
 
     try {
       // ✅ Send to correct endpoint: /api/contact
-      const response = await fetch(`${API_URL}/api/contact`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      // src/components/Contact.jsx
+const response = await fetch(`${API_URL}/api/contact`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(formData),
+});
+
 
       if (response.ok) {
         setFeedback('Thank you! Your message has been sent successfully. 📧');

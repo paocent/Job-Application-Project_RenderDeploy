@@ -6,7 +6,6 @@ import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 
-
 // Import routes
 import userRoutes from './routes/user.routes.js';
 import authRoutes from './routes/auth.routes.js';
@@ -53,11 +52,11 @@ app.use(cors({
 // ----------------------------
 // 3. API Routes
 // ----------------------------
-app.use('/api/users', authRoutes);   // signin, signout
-app.use('/api/users', userRoutes);   // general user routes
+app.use('/api/users', authRoutes);       // signin, signout
+app.use('/api/users', userRoutes);       // general user routes
 app.use('/api/contacts', contactsRoutes);
 app.use('/api/projects', projectsRoutes);
-app.use('/api/contactForms', contactForms);
+app.use('/api', contactForms);           // ✅ mounts /api/contact correctly
 app.use('/api/testimonials', Testimonials);
 app.use('/api/jobs', AddJob);
 
@@ -74,6 +73,5 @@ app.use((err, req, res, next) => {
     next();
   }
 });
-
 
 export default app;
