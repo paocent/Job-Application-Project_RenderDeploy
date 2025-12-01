@@ -25,6 +25,8 @@ return (
           <li>**Add new applications** and save key details like company, role, and date applied.</li>
           <li>**Update the status** of your applications (e.g., Applied, Interviewing, Offer Received).</li>
           <li>**Set reminders** for follow-ups and interview dates.</li>
+          <li>**View your progress** with easy-to-read summaries and statistics.</li>
+          <li>**Organize your job search** all in one place!</li>
         </ul>
       </div>
       
