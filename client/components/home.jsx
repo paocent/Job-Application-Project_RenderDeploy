@@ -27,6 +27,9 @@ return (
           <li>**Set reminders** for follow-ups and interview dates.</li>
           <li>**View your progress** with easy-to-read summaries and statistics.</li>
           <li>**Organize your job search** all in one place!</li>
+          <li>**Get started now** by adding your first job application!           
+          </li>
+          <li>Need help? Check out the **Help** section for tips on using JAT effectively.</li>
         </ul>
       </div>
       
