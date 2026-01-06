@@ -6,8 +6,6 @@ A full‑stack **Job Application Tracker** that helps you log, manage, and organ
 
 **Quick Start:** `git clone https://github.com/paocent/Job-Application-Project_RenderDeploy.git` → install dependencies → configure environment → run locally or deploy to Render following Render docs. 
 
-:contentReference[oaicite:0]{index=0}  
-
 **Contribute:** Add authentication, enhance UI/UX, add analytics, improve filtering & search, integrate email reminders.
 
 **License:** MIT
