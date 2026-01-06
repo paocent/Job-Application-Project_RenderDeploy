@@ -1,130 +1,125 @@
 /* =======================================================
-   1. GLOBAL STYLES & VARIABLES
+   1. THEME VARIABLES
+   ======================================================= */
+
+/* 🌙 DARK MODE (default) */
+body[data-theme="dark"] {
+    --color-bg-main: #0f172a;
+    --color-bg-surface: #020617;
+    --color-bg-elevated: #1e293b;
+
+    --color-text-primary: #f8fafc;
+    --color-text-secondary: #cbd5e1;
+
+    --color-accent-primary: #2563eb;
+    --color-separator: #1e293b;
+}
+
+/* 🌤️ LIGHT MODE (soft, not white) */
+body[data-theme="light"] {
+    --color-bg-main: #f3f4f6;
+    --color-bg-surface: #e5e7eb;
+    --color-bg-elevated: #d1d5db;
+
+    --color-text-primary: #111827;
+    --color-text-secondary: #374151;
+
+    --color-accent-primary: #2563eb;
+    --color-separator: #d1d5db;
+}
+
+/* =======================================================
+   2. GLOBAL STYLES
    ======================================================= */
 
 body {
-    /* Define a unified professional palette */
-    --color-bg-dark: #0f0f0f; 
-    --color-bg-mid: #1a1a1a; 
-    --color-bg-light: #2c2c2c; 
-    --color-text-light: #f0f0f0; 
-    --color-text-secondary: #aaaaaa; 
-    --color-accent-primary: #007bff; /* Professional Blue Accent */
-    --color-separator: #333333; 
-
-    background-color: var(--color-bg-dark); 
-    color: var(--color-text-light); 
-    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    background-color: var(--color-bg-main);
+    color: var(--color-text-primary);
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     margin: 0;
     min-height: 100vh;
     display: flex;
-    flex-direction: column; 
-    text-rendering: optimizeLegibility; 
+    flex-direction: column;
+    text-rendering: optimizeLegibility;
+    transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-/* Overall container for the layout */
 .wrapper {
-    flex-grow: 1; 
+    flex-grow: 1;
     margin: 0 auto;
     width: 100%;
-    max-width: 1280px; 
-    padding: 0 20px; 
+    max-width: 1280px;
+    padding: 0 20px;
 }
 
 /* =======================================================
-   2. HEADER & NAVIGATION (REVISED TO MATCH IMAGE DESIGN)
+   3. HEADER & NAVIGATION
    ======================================================= */
 
-/* Header acts as the top banner wrapper */
 header {
     width: 100%;
-    /* Removed box-shadow to match the flat black look in the image */
-    box-shadow: none; 
-    margin-bottom: 40px; 
-    padding: 20px 0; 
-    text-align: center; 
-    
+    margin-bottom: 40px;
+    padding: 20px 0;
+    text-align: center;
 }
 
 h1 {
     font-size: 2rem;
-    color: var(--color-accent-primary); 
-    /* Adjusted margin to bring title closer to the navigation bar */
-    margin: 10px 0 10px 0; 
+    margin: 10px 0;
     font-weight: 700;
     color: var(--color-accent-primary);
 }
 
-/* Logo Styling (REVISED for blue ring and no shadow) */
 .logo {
     display: block;
-    margin: 0 auto 10px auto; 
-    max-width: 70px; 
-    height: auto;
-    border-radius: 50%; 
-    box-shadow: none; 
-    /* Blue ring border matching the image */
-    border: 3px solid var(--color-accent-primary); 
-    padding: 5px; 
+    margin: 0 auto 10px auto;
+    max-width: 70px;
+    border-radius: 50%;
+    border: 3px solid var(--color-accent-primary);
+    padding: 5px;
 }
 
-/* Nav links wrapper */
 nav {
     display: flex;
     justify-content: center;
-    gap: 20px; 
-    align-items: center; 
+    gap: 20px;
+    align-items: center;
 }
 
-/* Targeting the React Router <Link> elements specifically (All Links) */
 nav a {
-    /* Set color to light text for visibility, as seen in the image */
-    color: var(--color-text-light); 
+    color: var(--color-text-primary);
     text-decoration: none;
     font-size: 1em;
     padding: 8px 12px;
-    border-radius: 0; 
-    transition: all 0.2s ease-in-out;
-    margin: 0; 
+    transition: color 0.2s ease;
 }
 
-/* Hover state for general navigation links */
 nav a:hover {
-    background-color: transparent; 
-    color: var(--color-accent-primary); /* Blue hover color */
-    text-decoration: none;
+    color: var(--color-accent-primary);
 }
 
-/* Style for the pipe separator '|' */
 nav > * {
-    color: var(--color-text-secondary); 
-    font-size: 1em;
+    color: var(--color-text-secondary);
 }
 
-/* --- Specific Style for Dashboard Link (To be highlighted like a button) --- */
-
-/* Targeting the specific link with className="dashboard" */
+/* Highlighted Dashboard Button */
 nav .dashboard {
-    /* Styles to make it look like the blue-bordered button in the image */
-    color: var(--color-accent-primary); 
+    color: var(--color-accent-primary);
     border: 2px solid var(--color-accent-primary);
-    padding: 8px 15px; 
-    border-radius: 6px; 
+    padding: 8px 15px;
+    border-radius: 6px;
     font-weight: 600;
 }
 
 nav .dashboard:hover {
-    /* Subtle hover effect on the highlighted button */
-    background-color: rgba(0, 123, 255, 0.1); 
+    background-color: rgba(37, 99, 235, 0.1);
 }
 
-
 /* =======================================================
-   3. MAIN CONTENT & FOOTER 
+   4. MAIN CONTENT & FOOTER
    ======================================================= */
 
-/* Horizontal rule for separation */
 hr {
     border: none;
     height: 1px;
@@ -132,19 +127,15 @@ hr {
     margin: 30px 0;
 }
 
-/* Main content area */
 main {
-    text-align: left;
-    padding: 0; 
     flex-grow: 1;
+    padding: 0;
 }
 
-/* Footer styling */
 footer {
-    margin-top: auto; 
-    width: 100%;
+    margin-top: auto;
     padding: 15px 20px;
-    background-color: var(--color-bg-mid); 
+    background-color: var(--color-bg-surface);
     font-size: 0.85rem;
     color: var(--color-text-secondary);
     text-align: center;
